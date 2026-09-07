@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Heart Attack Prediction using Retinal Images</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link href="../static/img/favicon.png" rel="icon">
+  <link href="../static/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <link href="../static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="../static/css/style.css" rel="stylesheet">
+
+  <style>
+    /* Global Dark Theme Background */
+    body {
+      background: url('../static/img/hero-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      background-attachment: fixed;
+      color: #f1f1f1;
+    }
+
+    .about, #main, #about, .about .container {
+      background: transparent !important;
+    }
+
+    /* --- Hero Section Styles --- */
+    #hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent !important;
+    }
+
+    #hero .hero-container {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    #hero h1 {
+      font-size: 3rem;
+      line-height: 1.3;
+      max-width: 900px;
+      margin: 0 auto;
+      white-space: normal;
+    }
+
+    #hero .btn-get-started {
+      margin-top: 20px;
+      font-size: 20px;
+      padding: 12px 32px;
+      border-radius: 6px;
+    }
+
+    /* --- Header/Logo Styles --- */
+    #header .logo h1 a span {
+      font-size: 26px !important;
+      white-space: nowrap !important;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      #header .logo h1 a span {
+        font-size: 20px !important;
+      }
+    }
+
+    /* --- Upload Card Styling --- */
+    .upload-card {
+      background: rgba(20, 20, 20, 0.55) !important;
+      border-radius: 24px;
+      padding: 35px 30px; /* Reduced padding */
+      color: white;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 20px rgba(88, 210, 215, 0.15);
+    }
+
+    .upload-section h3 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 25px;
+    }
+
+    /* --- Button Styling --- */
+    .btn-file, .theme-button {
+      background: rgba(100, 236, 234, 0.15) !important;
+      border: 1px solid #5dd2dd !important;
+      color: #52cdcf !important;
+      backdrop-filter: blur(4px);
+      padding: 10px 30px;
+      font-size: 18px;
+      border-radius: 8px;
+      transition: 0.3s;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-file:hover, .theme-button:hover {
+      background: #5dccd8 !important;
+      color: #000 !important;
+      box-shadow: 0 0 14px #52d0d2;
+    }
+
+    /* "Submit" Button - Smaller Size */
+    .theme-submit {
+      background: #5ad5db !important;
+      border: none !important;
+      padding: 10px 28px !important; /* Reduced padding */
+      font-size: 18px !important;    /* Reduced font size */
+      font-weight: 700;
+      border-radius: 10px;
+      transition: 0.3s;
+      color: #000 !important;
+      box-shadow: 0 4px 15px rgba(82, 217, 210, 0.3);
+    }
+
+    .theme-submit:hover {
+      background: #3ec8f2 !important;
+      box-shadow: 0 0 25px #51cada;
+      transform: translateY(-3px);
+    }
+
+    /* --- Input Field Styling --- */
+    .cluster-input {
+      max-width: 260px;
+      background: #2b2b2b;
+      border: 1px solid #444;
+      color: #fff;
+      height: 48px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .cluster-input:focus {
+      background: #2b2b2b;
+      border-color: #66c9e5;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(76, 186, 220, 0.5);
+      outline: none;
+    }
+
+    /* --- Image Preview Styling --- */
+    #img-upload {
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(109, 249, 249, 0.2);
+      margin-top: 12px;
+      max-width: 100%;
+      display: none;
+    }
+
+    /* Button Style - Normal State */
+    .btn-clustered {
+      display: inline-block;
+      padding: 10px 28px !important;
+      background-image: linear-gradient(45deg, #61d0e3, #4de1e1);
+      color: #fff;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 16px !important;
+      margin-top: 25px;
+    }
+
+    .btn-clustered:hover {
+      background-image: none;
+      background-color: #62e3e5;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    section#upload {
+      position: relative;
+      padding: 40px 0; /* Reduced padding */
+      background: transparent !important;
+    }
+
+    /* Professional "Skip" Link Style */
+    .skip-link {
+      display: inline-block;
+      margin-top: 15px;
+      color: #52cdcf; /* Teal color matches theme */
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+      padding-bottom: 2px;
+    }
+
+    .skip-link:hover {
+      color: #fff;
+      border-bottom: 1px solid #52cdcf;
+      transform: translateX(3px);
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header id="header" class="fixed-top header-transparent">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="logo">
+        <h1 class="text-light"><a href="index.html"><span>Heart Attack Prediction</span></a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" href="{{ url_for('first')}}">Home</a></li>
+          <li><a class="nav-link scrollto" href="#upload">Clustering</a></li>
+          <li><a class="nav-link scrollto" href="{{ url_for('index')}}">Prediction</a></li>
+          <li><a class="nav-link scrollto" href="{{ url_for('chart')}}">Analysis</a></li>
+          {% if session.get('user_id') %}
+            <li><a class="nav-link scrollto" href="{{ url_for('logout') }}">Logout</a></li>
+          {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero">
+    <div class="hero-container" data-aos="fade-up">
+      <h1>Heart Attack Prediction using Retinal Images </h1>
+      <a href="#upload-intro" class="btn-clustered">Go for Clustering</a>
+    </div>
+  </section>
+
+  <main id="main">
+
+  <div id="upload-intro" class="text-center mb-5 upload-intro" style="padding-top: 60px;">
+  
+  <div class="mx-auto p-4" 
+       style="max-width: 850px; 
+              background: rgba(0, 0, 0, 0.65); /* Dark see-through background */
+              backdrop-filter: blur(8px);      /* Blurs the stethoscope behind the text */
+              border-radius: 20px;             /* Smooth rounded corners */
+              border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle premium border */
+              box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+
+      <h2 class="fw-bold text-white mb-3" style="letter-spacing: 1px;">
+        Advanced Clustering & Vessel Segmentation
+      </h2>
+      
+      <p class="text-light mx-auto mb-0" 
+         style="font-size: 17px; line-height: 1.8; font-weight: 400; color: #e0e0e0 !important;">
+        This module performs high-precision K-Means clustering to isolate retinal blood vessels from the fundus background. 
+        By segmenting these vascular structures, clinicians and researchers can visualize intricate patterns and anomalies 
+        that contribute to cardiovascular risk. This step provides a deeper layer of diagnostic insight prior to running 
+        the final predictive model.
+      </p>
+
+  </div>
+  <div class="d-inline-block px-5 py-3 mt-4" 
+       style="background: rgba(15, 15, 15, 0.6);
+              border: 1px solid rgba(90, 213, 219, 0.5); 
+              border-radius: 12px;              
+              backdrop-filter: blur(8px);       
+              box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+              
+    <span style="color: #f0f0f0; font-weight: 500; font-size: 17px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+        If you are a normal user then
+    </span>
+
+    <a href="{{ url_for('index') }}" 
+       style="color: #5ad5db; text-decoration: none; font-weight: 700; margin-left: 8px; font-size: 17px; transition: 0.3s; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+      Skip this step &rarr;
+    </a>
+  </div>
+
+</div>
+
+    <section id="upload" class="py-4" data-aos="fade-up" data-aos-duration="1000">
+      <div class="container col-lg-5">
+
+        <div class="card upload-card">
+          <div class="card-body">
+
+            <h3 class="text-center mb-4 text-white" style="font-weight:700; font-size: 28px;">
+              Upload Image
+            </h3>
+
+            <form action="/success" method="post" enctype="multipart/form-data">
+
+              <div class="mb-4 text-center">
+                <label class="btn theme-button px-4 py-2">
+                  Choose File
+                  <input type="file" id="imgInp" name="file" accept=".jpg,.jpeg,.png" hidden required>
+                </label>
+                <div id="file-name" class="mt-2 text-light small"></div>
+              </div>
+
+              <div class="text-center mb-4">
+                <img id="img-upload" />
+              </div>
+
+              <div class="mb-4 text-center">
+                <label class="fw-bold mb-2 text-white" style="font-size: 18px;">
+                  No. of Clusters
+                </label>
+                <input type="number" id="points" name="cluster" class="form-control cluster-input mx-auto" min="0" max="5" required>
+              </div>
+
+              <div class="text-center">
+                <button type="submit" class="btn theme-submit">
+                  Submit
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="../static/vendor/aos/aos.js"></script>
+  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../static/vendor/php-email-form/validate.js"></script>
+  <script src="../static/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <script src="../static/js/main.js"></script>
+
+  <script>
+    AOS.init();
+  </script>
+
+  <script>
+    document.getElementById("imgInp").addEventListener("change", function() {
+      const file = this.files[0];
+      document.getElementById("file-name").innerText = file ? file.name : "";
+
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById("img-upload");
+          img.src = e.target.result;
+          img.style.display = "block";
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+
+</body>
+</html>

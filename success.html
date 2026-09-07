@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<style>
+  /*
+    Hero layout fix:
+    - Push the hero down by the fixed header height (86px)
+    - Center the title and button vertically and horizontally
+    - Keep responsive sizing
+  */
+  :root {
+    --header-height: 86px; /* adjust if your header height differs */
+  }
+
+  .success-hero {
+    /* make space for fixed header so nothing is hidden */
+    padding-top: calc(var(--header-height) + 18px);
+    padding-bottom: 28px;
+    display: flex;
+    align-items: center;     /* vertical center within hero area */
+    justify-content: center; /* horizontal center */
+    flex-direction: column;
+    min-height: 260px;       /* enough room to show title + button */
+    text-align: center;
+    background: transparent;
+    box-sizing: border-box;
+  }
+
+  .success-hero .hero-inner {
+    max-width: 1100px;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .success-hero h2 {
+    font-family: "Poppins", "Georgia", serif;
+    font-size: 34px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0 0 12px;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.55);
+    line-height: 1.12;
+  }
+
+  .success-hero .btn-get-started {
+    display: inline-block;
+    background: linear-gradient(180deg,#188b4f,#0f6938);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(15,105,56,0.18);
+  }
+  .success-hero .btn-get-started:hover { opacity: 0.95; transform: translateY(-2px); }
+
+  /* gallery row: center the two images and keep them aligned */
+  .results-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    align-items: flex-start;
+    margin: 18px 0 30px;
+  }
+  .results-row .plot-wrapper {
+    flex: 0 0 360px;
+    max-width: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .results-row img.plot {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 6px solid #000; /* preserve the dark frame look */
+    box-sizing: border-box;
+  }
+
+  /* professional 'Next' CTA */
+  .cta-wrap {
+    text-align: center;
+    margin: 18px 0 48px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: #66e6eb;
+    color: #000;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .18s ease;
+    border: none;
+  }
+  .cta-btn:hover {
+    background: #57efec;
+    color: #000000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  }
+
+  /* responsive tweaks */
+  @media (max-width: 900px) {
+    .success-hero h2 { font-size: 28px; }
+    .results-row { gap: 18px; }
+    .results-row .plot-wrapper { flex: 1 1 320px; max-width: 90%; }
+  }
+
+  /* Defensive: hide any stray element that exactly contains 'layout.html' */
+  /* Cosmetic-only — safe — we try to hide accidental stray text nodes */
+  .hide-layout-text { display:none !important; }
+</style>
+
+<!-- RESULTS: two side-by-side images -->
+<div id="results" class="container">
+  <div class="results-row">
+    <div class="plot-wrapper">
+      <img class="plot" src="{{ url_for('static', filename='images/orig_image.jpg') }}" alt="Original image">
+    </div>
+
+    <div class="plot-wrapper">
+      <img class="plot" src="{{ url_for('static', filename='images/em_image.jpg') }}" alt="Clustered image">
+    </div>
+  </div>
+
+  <!-- professional Next button (keeps same link behavior) -->
+  <div class="cta-wrap">
+    <a class="cta-btn" href="{{ url_for('index') }}">Next</a>
+  </div>
+</div>
+
+<script>
+  (function(){
+    // hide any element whose textContent exactly equals 'layout.html'
+    // This is cosmetic-only: if your template engine placed that stray text node somewhere, we hide it.
+    document.querySelectorAll('body *').forEach(function(el){
+      if (el.childNodes.length === 1 && el.childNodes[0].nodeType === Node.TEXT_NODE) {
+        if (el.textContent.trim() === 'layout.html') {
+          el.classList.add('hide-layout-text');
+        }
+      }
+    });
+  })();
+</script>
+
+{% endblock content %}
